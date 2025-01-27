@@ -3941,7 +3941,8 @@
       "axi_interconnect_0_M04_AXI": {
         "interface_ports": [
           "axi_interconnect_0/M04_AXI",
-          "is2Controller_0/s00_axi"
+          "is2Controller_0/s00_axi",
+          "system_ila_0/SLOT_0_AXI"
         ]
       },
       "axi_interconnect_1_M00_AXI": {
@@ -3971,8 +3972,7 @@
       "tangerine_0_m00_axi": {
         "interface_ports": [
           "tangerine_0/m00_axi",
-          "axi_interconnect_1/S00_AXI",
-          "system_ila_0/SLOT_0_AXI"
+          "axi_interconnect_1/S00_AXI"
         ]
       }
     },
