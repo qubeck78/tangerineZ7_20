@@ -1,0 +1,2 @@
+gfxBufRam.v,verilog,xil_defaultlib,../../../../tangerineZ7_20.gen/sources_1/ip/gfxBufRam/sim/gfxBufRam.v,
+glbl.v,Verilog,xil_defaultlib,glbl.v

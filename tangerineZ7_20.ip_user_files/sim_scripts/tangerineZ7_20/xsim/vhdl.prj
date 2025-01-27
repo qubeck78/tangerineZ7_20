@@ -1,0 +1,7 @@
+vhdl xil_defaultlib  \
+"../../../../tangerineZ7_20.gen/sources_1/bd/tangerineZ7_20/ip/tangerineZ7_20_proc_sys_reset_0_0/sim/tangerineZ7_20_proc_sys_reset_0_0.vhd" \
+"../../../../tangerineZ7_20.gen/sources_1/bd/tangerineZ7_20/ip/tangerineZ7_20_axi_bram_ctrl_0_0/sim/tangerineZ7_20_axi_bram_ctrl_0_0.vhd" \
+"../../../../tangerineZ7_20.gen/sources_1/bd/tangerineZ7_20/ip/tangerineZ7_20_axi_bram_ctrl_1_0/sim/tangerineZ7_20_axi_bram_ctrl_1_0.vhd" \
+
+# Do not sort compile order
+nosort
