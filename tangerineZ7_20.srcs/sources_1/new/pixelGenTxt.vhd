@@ -68,7 +68,9 @@ port(
    -- 01 : 80x30 characters, 16 font/background colors
    -- 11 : 80x60 characters, 16 font/background colors
    
-   pgVideoMode:      in  std_logic_vector( 1 downto 0 )
+   pgVideoMode:      in  std_logic_vector( 1 downto 0 );
+   pgCursorX:        in  std_logic_vector( 7 downto 0 );
+   pgCursorY:        in  std_logic_vector( 7 downto 0 )
     
 );
 
@@ -76,16 +78,14 @@ end pixelGenTxt;
 
 architecture behavior of pixelGenTxt is
 
---signal  pgXCount:           std_logic_vector( 11 downto 0 );
---signal  pgYCount:           std_logic_vector( 11 downto 0 );
---signal  pgDeX:              std_logic;
---signal  pgDeY:              std_logic;
---signal  pgFetchEnable:      std_logic;
 
 signal  pgDisplayPtr:       std_logic_vector( 13 downto 0 );
 signal  pgDisplayPtrShadow: std_logic_vector( 13 downto 0 );
 signal  pgLetterYCount:     std_logic_vector( 3 downto 0 );
 signal  pgLetterData:       std_logic_vector( 7 downto 0 );
+
+signal  pgLetterX:         std_logic_vector( 7 downto 0 );
+signal  pgLetterY:         std_logic_vector( 7 downto 0 );
 
 type pgState_T is ( m0pre0, m0pre1, m0pre2, m0pre3, m0pre4, m0pre5, m0pre6, m0p0, m0p1, m0p2, m0p3, m0p4, m0p5, m0p6, m0p7,
                     m0p8, m0p9, m0p10, m0p11, m0p12, m0p13, m0p14, m0p15, m0hblank,
@@ -106,6 +106,10 @@ signal pgBackgroundColor:   std_logic_vector( 23 downto 0 );
 begin
 
    colorLUT: process( all )
+   
+   variable lutBackgroundColorVar:  std_logic_vector( 23 downto 0 );
+   variable lutLetterColorVar:      std_logic_vector( 23 downto 0 );
+   
    begin
    
       if rising_edge( pgClock ) then
@@ -113,112 +117,128 @@ begin
            case videoRamBDout( 15 downto 12) is
 
                when "0000" =>
-                   pgLutBackgroundColor   <= x"000000";
+                   lutBackgroundColorVar   := x"000000";
 
                when "0001" =>
-                   pgLutBackgroundColor   <= x"000080";
+                   lutBackgroundColorVar   := x"000080";
 
                when "0010" =>
-                   pgLutBackgroundColor   <= x"008000";
+                   lutBackgroundColorVar   := x"008000";
 
                when "0011" =>
-                   pgLutBackgroundColor   <= x"800000";
+                   lutBackgroundColorVar   := x"800000";
 
                when "0100" =>
-                   pgLutBackgroundColor   <= x"008080";
+                   lutBackgroundColorVar   := x"008080";
 
                when "0101" =>
-                   pgLutBackgroundColor   <= x"808000";
+                   lutBackgroundColorVar   := x"808000";
 
                when "0110" =>
-                   pgLutBackgroundColor   <= x"800080";
+                   lutBackgroundColorVar   := x"800080";
 
                when "0111" =>
-                   pgLutBackgroundColor   <= x"202020";
+                   lutBackgroundColorVar   := x"202020";
  
                when "1000" =>
-                   pgLutBackgroundColor   <= x"808080";
+                   lutBackgroundColorVar   := x"808080";
 
                when "1001" =>
-                   pgLutBackgroundColor   <= x"0000ff";
+                   lutBackgroundColorVar   := x"0000ff";
 
                when "1010" =>
-                   pgLutBackgroundColor   <= x"00ff00";
+                   lutBackgroundColorVar   := x"00ff00";
 
                when "1011" =>
-                   pgLutBackgroundColor   <= x"ff0000";
+                   lutBackgroundColorVar   := x"ff0000";
 
                when "1100" =>
-                   pgLutBackgroundColor   <= x"00ffff";
+                   lutBackgroundColorVar   := x"00ffff";
 
                when "1101" =>
-                   pgLutBackgroundColor   <= x"ffff00";
+                   lutBackgroundColorVar   := x"ffff00";
 
                when "1110" =>
-                   pgLutBackgroundColor   <= x"ff00ff";
+                   lutBackgroundColorVar   := x"ff00ff";
 
                when "1111" =>
-                   pgLutBackgroundColor   <= x"ffffff";
+                   lutBackgroundColorVar   := x"ffffff";
 
                when others =>
 
-                   pgLutBackgroundColor   <= x"000000";
+                   lutBackgroundColorVar   := x"000000";
            end case;
 
            case videoRamBDout( 11 downto 8 ) is
 
                when "0000" =>
-                   pgLutLetterColor   <= x"000000";
+                   lutLetterColorVar   := x"000000";
 
                when "0001" =>
-                   pgLutLetterColor   <= x"000080";
+                   lutLetterColorVar   := x"000080";
 
                when "0010" =>
-                   pgLutLetterColor   <= x"008000";
+                   lutLetterColorVar   := x"008000";
 
                when "0011" =>
-                   pgLutLetterColor   <= x"800000";
+                   lutLetterColorVar   := x"800000";
 
                when "0100" =>
-                   pgLutLetterColor   <= x"008080";
+                   lutLetterColorVar   := x"008080";
 
                when "0101" =>
-                   pgLutLetterColor   <= x"808000";
+                   lutLetterColorVar   := x"808000";
 
                when "0110" =>
-                   pgLutLetterColor   <= x"800080";
+                   lutLetterColorVar   := x"800080";
 
                when "0111" =>
-                   pgLutLetterColor   <= x"404040";
+                   lutLetterColorVar   := x"404040";
  
                when "1000" =>
-                   pgLutLetterColor   <= x"808080";
+                   lutLetterColorVar   := x"808080";
 
                when "1001" =>
-                   pgLutLetterColor   <= x"0000ff";
+                   lutLetterColorVar   := x"0000ff";
 
                when "1010" =>
-                   pgLutLetterColor   <= x"00ff00";
+                   lutLetterColorVar   := x"00ff00";
 
                when "1011" =>
-                   pgLutLetterColor   <= x"ff0000";
+                   lutLetterColorVar   := x"ff0000";
 
                when "1100" =>
-                   pgLutLetterColor   <= x"00ffff";
+                   lutLetterColorVar   := x"00ffff";
 
                when "1101" =>
-                   pgLutLetterColor   <= x"ffff00";
+                   lutLetterColorVar   := x"ffff00";
 
                when "1110" =>
-                   pgLutLetterColor   <= x"ff00ff";
+                   lutLetterColorVar   := x"ff00ff";
 
                when "1111" =>
-                   pgLutLetterColor   <= x"ffffff";
+                   lutLetterColorVar   := x"ffffff";
 
                when others =>
 
-                   pgLutLetterColor   <= x"000000";
+                   lutLetterColorVar   := x"000000";
            end case;
+
+
+         if pgCursorX = pgLetterX and pgCursorY = pgLetterY then
+
+            pgLutLetterColor     <= lutBackgroundColorVar;
+            pgLutBackgroundColor <= lutLetterColorVar;
+         
+         else
+         
+            pgLutBackgroundColor <= lutBackgroundColorVar;
+            pgLutLetterColor     <= lutLetterColorVar;
+         
+         
+         end if;
+
+
 
       end if; --rising_edge( pgClock )
       
@@ -374,6 +394,10 @@ begin
                pgDisplayPtrShadow  <= ( others => '0' );
 
                pgLetterYCount      <= ( others => '0' );
+               
+               pgLetterX           <= ( others => '0' );
+               pgLetterY           <= ( others => '0' );
+
 
             end if;
 
@@ -390,7 +414,10 @@ begin
                     pgB <= ( others => '0' );
 
                     if pgFetchEnable = '1' then
-                    
+
+                        --clear letter x
+                        
+                        pgLetterX   <= ( others => '0' );                    
 
                         --pre fetch first character and attributes
                         pgDisplayPtrShadow  <= pgDisplayPtr;
@@ -421,6 +448,10 @@ begin
                     
                 when m0pre3 =>
                      
+                    --increase letter x
+                    
+                    pgLetterX <= pgLetterX + 1;
+
                      --latch colors
                      pgLetterColor     <= pgLutLetterColor;
                      pgBackgroundColor <= pgLutBackgroundColor;
@@ -640,6 +671,10 @@ begin
 
                     end if;
 
+                    --increase letter x
+                    
+                    pgLetterX <= pgLetterX + 1;
+
                     --store next character
                     pgLetterData    <= fontRomDout;
 
@@ -669,6 +704,10 @@ begin
                         --restore data pointer
                         pgDisplayPtr <= pgDisplayPtrShadow;
 
+                    else
+                    
+                        pgLetterY <= pgLetterY + 1;
+                        
                     end if;
 
                     pgLetterYCount <= pgLetterYCount + 1;
@@ -687,6 +726,9 @@ begin
 
                     if pgFetchEnable = '1' then
                     
+                        --clear letter x
+                        pgLetterX   <= ( others => '0' );                    
+
                         --pre fetch first character and attributes
                         pgDisplayPtrShadow  <= pgDisplayPtr;
                         videoRamBA          <= pgDisplayPtr;
@@ -731,6 +773,9 @@ begin
                      --latch colors
                      pgLetterColor     <= pgLutLetterColor;
                      pgBackgroundColor <= pgLutBackgroundColor;
+
+                   --increase letter x                        
+                   pgLetterX   <= pgLetterX + 1;                    
                 
                     pgState <= m1pre4;
 
@@ -892,6 +937,7 @@ begin
                         pgB <= pgBackgroundColor( 23 downto 16 );
 
                     end if;
+
                    
 
                     pgState <= m1p7;
@@ -912,11 +958,13 @@ begin
 
                     end if;
                    
-                  if pgFetchEnable = '1' then
+                   if pgFetchEnable = '1' then
 
                         pgDisplayPtr    <= pgDisplayPtr + 1;
 
                     end if;
+                     
+
 
                     --store next character
                     pgLetterData    <= fontRomDout;
@@ -924,6 +972,9 @@ begin
                      --latch colors
                      pgLetterColor     <= pgLutLetterColor;
                      pgBackgroundColor <= pgLutBackgroundColor;
+
+                   --increase letter x                        
+                   pgLetterX   <= pgLetterX + 1;                    
 
                     if pgFetchEnable = '1' then
 
@@ -951,6 +1002,10 @@ begin
                             --if not end of 16 px line (one letter height)
                             --restore data pointer
                             pgDisplayPtr <= pgDisplayPtrShadow;
+                        else
+                        
+                           --increase letter y
+                           pgLetterY   <= pgLetterY + 1;
         
                         end if;
         
@@ -963,6 +1018,11 @@ begin
                             --if not end of 16 px line (one letter height)
                             --restore data pointer
                             pgDisplayPtr <= pgDisplayPtrShadow;
+                        
+                        else
+                        
+                           --increase letter y
+                           pgLetterY   <= pgLetterY + 1;
         
                         end if;
                     

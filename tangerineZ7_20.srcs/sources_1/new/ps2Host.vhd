@@ -86,8 +86,8 @@ END COMPONENT;
 --constants
 
 --clock pulse width while initiating ps2 write
-constant clockPulseTimerValue:   integer:=   32 + ( 100 * 100 );  --100us @ 100Mhz
-
+constant clockPulseTimerValue:   integer:=   32 + ( 100 * 100 );  --100us @ 100MHz
+constant watchdogTimerPeriod:    integer:=   50000000;         --500ms @ 100MHz
 
 --signals
 
@@ -111,7 +111,7 @@ signal ps2aDataInBuf:         std_logic_vector( 7 downto 0 );
 signal ps2aDataIn:            std_logic_vector( 7 downto 0 );
 
 --ps2a write
-
+signal ps2aWatchdogTimer:     std_logic_vector( 31 downto 0 );
 signal ps2aClockPulseTimer:   std_logic_vector( 15 downto 0 );
 signal ps2aDataOut:           std_logic_vector( 7 downto 0 );
 signal ps2aDataOutBuf:        std_logic_vector( 7 downto 0 );
@@ -161,6 +161,8 @@ begin
          ps2aWriteMode        <= '0';
          
          ps2aClockPulseTimer  <= ( others => '0' );
+         ps2aWatchdogTimer    <= std_logic_vector( to_unsigned( watchdogTimerPeriod, 32 ) );
+
       else
          
          --latch write mode trigger
@@ -170,7 +172,23 @@ begin
             ps2aWriteMode  <= '1';
             
          end if;
-      
+
+         if ps2aState /= ps2Starth then
+         
+            if ps2aWatchdogTimer /= x"00000000" then
+               
+               ps2aWatchdogTimer <= std_logic_vector( unsigned( ps2aWatchdogTimer ) - 1 ); 
+         
+            else
+            
+               --reset fsm if transmission not finished in desired time
+               
+               ps2aState      <= ps2Starth;
+               ps2aWriteMode  <= '0';
+               
+           end if;
+           
+         end if;      
       
          case ps2aState is
          
@@ -186,6 +204,8 @@ begin
 
                   ps2aDataOutBuf       <= ps2aDataOut;
                   ps2aClockPulseTimer  <= std_logic_vector( to_unsigned( clockPulseTimerValue, 16 ) );
+                  ps2aWatchdogTimer    <= std_logic_vector( to_unsigned( watchdogTimerPeriod, 32 ) );
+                  
                   ps2aState            <= ps2WrPulseClock;                  
                
                end if;
@@ -193,6 +213,8 @@ begin
 
                if ps2aClockSync = '0' then
          
+                     ps2aWatchdogTimer    <= std_logic_vector( to_unsigned( watchdogTimerPeriod, 32 ) );
+
                      ps2aParity  <= '1';      
                      ps2aState   <= ps2Startl;            
                                     
@@ -540,7 +562,7 @@ begin
                      -- r- version 
                      when x"01" =>
                      
-                        s00_axi_rdata  <= x"20250125";
+                        s00_axi_rdata  <= x"20250128";
                
                      -- rw keyboardData
                      when x"02" =>
