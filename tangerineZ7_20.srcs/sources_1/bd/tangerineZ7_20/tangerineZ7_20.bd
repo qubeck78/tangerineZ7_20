@@ -4143,12 +4143,12 @@
               "SEG_axi_bram_ctrl_0_Mem0": {
                 "address_block": "/axi_bram_ctrl_0/S_AXI/Mem0",
                 "offset": "0x40000000",
-                "range": "8K"
+                "range": "16K"
               },
               "SEG_is2Controller_0_reg0": {
                 "address_block": "/is2Controller_0/s00_axi/reg0",
                 "offset": "0x44000000",
-                "range": "64K"
+                "range": "4K"
               },
               "SEG_ps2Host_0_reg0": {
                 "address_block": "/ps2Host_0/s00_axi/reg0",
