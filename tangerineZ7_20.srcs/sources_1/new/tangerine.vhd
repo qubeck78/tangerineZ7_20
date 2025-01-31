@@ -254,7 +254,9 @@ component pixelGenTxt
         pgPreFetchLine: out std_logic;
         pgFetchEnable:  out std_logic;
     
-        pgVideoMode:      in  std_logic_vector( 1 downto 0 )
+        pgVideoMode:      in  std_logic_vector( 1 downto 0 );
+        pgCursorX:        in  std_logic_vector( 7 downto 0 );
+        pgCursorY:        in  std_logic_vector( 7 downto 0 )
     );
 end component;
 
@@ -412,6 +414,8 @@ signal pgPreFetchLine:   std_logic;
 signal pgFetchEnable:    std_logic;
 signal videoRamBDout:    std_logic_vector( 15 downto 0 );
 signal videoRamBA:       std_logic_vector( 13 downto 0 ); 
+signal pgCursorX:        std_logic_vector( 7 downto 0 );
+signal pgCursorY:        std_logic_vector( 7 downto 0 );
 
 --vsync signal synchronised to cpu clock domain
 signal pgVSyncClkD2:     std_logic;
@@ -613,8 +617,10 @@ port map(
     pgPreFetchLine  => pgPreFetchLine,
     pgFetchEnable   => pgFetchEnable,
       
-    pgVideoMode     => vmMode( 3 downto 2 )
-        
+    pgVideoMode     => vmMode( 3 downto 2 ),
+    pgCursorX       => pgCursorX,
+    pgCursorY       => pgCursorY
+    
 );   
 
 --place gfx pixel gen
@@ -982,6 +988,8 @@ begin
          ch0DmaRequest1PtrAdd <= x"0400";
          
          vmMode            <= ( others => '0' );
+         pgCursorX         <= ( others => '0' );
+         pgCursorY         <= ( others => '0' );
          
       else
       
@@ -1019,7 +1027,7 @@ begin
                         
                      when x"01" =>
                      
-                        s00_axi_rdata  <= x"20250127";
+                        s00_axi_rdata  <= x"20250129";
                
                      when x"02" =>
                      
@@ -1052,6 +1060,11 @@ begin
                      when x"0c" =>
                                 
                         s00_axi_rdata  <= x"0000" & ch0DmaRequest1PtrAdd;
+
+                     when x"0d" =>
+
+                        s00_axi_rdata  <= x"0000" & pgCursorY & pgCursorX;
+                        
 
                      when others =>
                      
@@ -1113,6 +1126,11 @@ begin
                                 
                         ch0DmaRequest1PtrAdd    <= s00_axi_wdata( 15 downto 0 );
 
+                     when x"0d" =>
+                     
+                        pgCursorX   <= s00_axi_wdata( 7 downto 0 );
+                        pgCursorY   <= s00_axi_wdata( 15 downto 8 );
+                        
                      when others =>
                   
                   end case;

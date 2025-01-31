@@ -41,8 +41,8 @@
         }
       },
       "is2Controller_0": "",
-      "ps2Host_0": "",
       "system_ila_0": "",
+      "ps2Host_0": "",
       "tangerine_0": ""
     },
     "interface_ports": {
@@ -2082,7 +2082,7 @@
             "value": "50"
           },
           "CLKOUT4_USED": {
-            "value": "true"
+            "value": "false"
           },
           "CLKOUT5_JITTER": {
             "value": "162.035"
@@ -2091,7 +2091,7 @@
             "value": "164.985"
           },
           "CLKOUT5_USED": {
-            "value": "true"
+            "value": "false"
           },
           "CLKOUT6_JITTER": {
             "value": "162.035"
@@ -2103,7 +2103,7 @@
             "value": "190"
           },
           "CLKOUT6_USED": {
-            "value": "true"
+            "value": "false"
           },
           "CLK_OUT1_PORT": {
             "value": "clk125"
@@ -2145,19 +2145,19 @@
             "value": "40"
           },
           "MMCM_CLKOUT3_DIVIDE": {
-            "value": "20"
+            "value": "1"
           },
           "MMCM_CLKOUT4_DIVIDE": {
-            "value": "10"
+            "value": "1"
           },
           "MMCM_CLKOUT5_DIVIDE": {
-            "value": "10"
+            "value": "1"
           },
           "MMCM_CLKOUT5_PHASE": {
             "value": "189.000"
           },
           "NUM_OUT_CLKS": {
-            "value": "6"
+            "value": "3"
           },
           "PRIM_IN_FREQ": {
             "value": "50.000"
@@ -2681,6 +2681,19 @@
           }
         }
       },
+      "system_ila_0": {
+        "vlnv": "xilinx.com:ip:system_ila:1.1",
+        "xci_name": "tangerineZ7_20_system_ila_0_0",
+        "xci_path": "ip\\tangerineZ7_20_system_ila_0_0\\tangerineZ7_20_system_ila_0_0.xci",
+        "inst_hier_path": "system_ila_0",
+        "interface_ports": {
+          "SLOT_0_AXI": {
+            "mode": "Monitor",
+            "vlnv_bus_definition": "xilinx.com:interface:aximm:1.0",
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0"
+          }
+        }
+      },
       "ps2Host_0": {
         "vlnv": "xilinx.com:module_ref:ps2Host:1.0",
         "xci_name": "tangerineZ7_20_ps2Host_0_0",
@@ -2941,19 +2954,6 @@
           },
           "ps2bData": {
             "direction": "IO"
-          }
-        }
-      },
-      "system_ila_0": {
-        "vlnv": "xilinx.com:ip:system_ila:1.1",
-        "xci_name": "tangerineZ7_20_system_ila_0_0",
-        "xci_path": "ip\\tangerineZ7_20_system_ila_0_0\\tangerineZ7_20_system_ila_0_0.xci",
-        "inst_hier_path": "system_ila_0",
-        "interface_ports": {
-          "SLOT_0_AXI": {
-            "mode": "Monitor",
-            "vlnv_bus_definition": "xilinx.com:interface:aximm:1.0",
-            "vlnv": "xilinx.com:interface:aximm_rtl:1.0"
           }
         }
       },
@@ -3941,7 +3941,8 @@
       "axi_interconnect_0_M04_AXI": {
         "interface_ports": [
           "axi_interconnect_0/M04_AXI",
-          "is2Controller_0/s00_axi"
+          "is2Controller_0/s00_axi",
+          "system_ila_0/SLOT_0_AXI"
         ]
       },
       "axi_interconnect_1_M00_AXI": {
@@ -3971,8 +3972,7 @@
       "tangerine_0_m00_axi": {
         "interface_ports": [
           "tangerine_0/m00_axi",
-          "axi_interconnect_1/S00_AXI",
-          "system_ila_0/SLOT_0_AXI"
+          "axi_interconnect_1/S00_AXI"
         ]
       }
     },
@@ -3992,8 +3992,8 @@
           "axi_interconnect_1/M00_ARESETN",
           "axi_interconnect_1/S00_ARESETN",
           "is2Controller_0/s00_axi_aresetn",
-          "ps2Host_0/s00_axi_aresetn",
           "system_ila_0/resetn",
+          "ps2Host_0/s00_axi_aresetn",
           "tangerine_0/s00_axi_aresetn",
           "tangerine_0/s01_axi_aresetn",
           "tangerine_0/m00_axi_aresetn"
@@ -4096,8 +4096,8 @@
           "axi_interconnect_1/S00_ACLK",
           "axi_interconnect_1/M00_ACLK",
           "is2Controller_0/s00_axi_aclk",
-          "ps2Host_0/s00_axi_aclk",
           "system_ila_0/clk",
+          "ps2Host_0/s00_axi_aclk",
           "tangerine_0/s00_axi_aclk",
           "tangerine_0/s01_axi_aclk",
           "tangerine_0/m00_axi_aclk"
@@ -4143,12 +4143,12 @@
               "SEG_axi_bram_ctrl_0_Mem0": {
                 "address_block": "/axi_bram_ctrl_0/S_AXI/Mem0",
                 "offset": "0x40000000",
-                "range": "8K"
+                "range": "16K"
               },
               "SEG_is2Controller_0_reg0": {
                 "address_block": "/is2Controller_0/s00_axi/reg0",
                 "offset": "0x44000000",
-                "range": "64K"
+                "range": "4K"
               },
               "SEG_ps2Host_0_reg0": {
                 "address_block": "/ps2Host_0/s00_axi/reg0",

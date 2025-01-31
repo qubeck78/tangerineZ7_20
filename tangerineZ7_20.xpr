@@ -66,13 +66,13 @@
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
-    <Option Name="WTXSimExportSim" Val="15"/>
-    <Option Name="WTModelSimExportSim" Val="15"/>
-    <Option Name="WTQuestaExportSim" Val="15"/>
+    <Option Name="WTXSimExportSim" Val="16"/>
+    <Option Name="WTModelSimExportSim" Val="16"/>
+    <Option Name="WTQuestaExportSim" Val="16"/>
     <Option Name="WTIesExportSim" Val="0"/>
-    <Option Name="WTVcsExportSim" Val="15"/>
-    <Option Name="WTRivieraExportSim" Val="15"/>
-    <Option Name="WTActivehdlExportSim" Val="15"/>
+    <Option Name="WTVcsExportSim" Val="16"/>
+    <Option Name="WTRivieraExportSim" Val="16"/>
+    <Option Name="WTActivehdlExportSim" Val="16"/>
     <Option Name="GenerateIPUpgradeLog" Val="TRUE"/>
     <Option Name="XSimRadix" Val="hex"/>
     <Option Name="XSimTimeUnit" Val="ns"/>
@@ -97,6 +97,12 @@
         </FileInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/new/InputSync.vhd">
+        <FileInfo SFType="VHDL2019">
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/ps2PortController.vhd">
         <FileInfo SFType="VHDL2019">
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -247,19 +253,6 @@
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
-    <FileSet Name="ps2KeyboardFifo" Type="BlockSrcs" RelSrcDir="$PSRCDIR/ps2KeyboardFifo" RelGenDir="$PGENDIR/ps2KeyboardFifo">
-      <File Path="$PSRCDIR/sources_1/ip/ps2KeyboardFifo/ps2KeyboardFifo.xci">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <Config>
-        <Option Name="TopModule" Val="ps2KeyboardFifo"/>
-        <Option Name="UseBlackboxStub" Val="1"/>
-      </Config>
-    </FileSet>
     <FileSet Name="i2sControllerFifo" Type="BlockSrcs" RelSrcDir="$PSRCDIR/i2sControllerFifo" RelGenDir="$PGENDIR/i2sControllerFifo">
       <File Path="$PSRCDIR/sources_1/ip/i2sControllerFifo/i2sControllerFifo.xci">
         <FileInfo>
@@ -270,6 +263,19 @@
       </File>
       <Config>
         <Option Name="TopModule" Val="i2sControllerFifo"/>
+        <Option Name="UseBlackboxStub" Val="1"/>
+      </Config>
+    </FileSet>
+    <FileSet Name="ps2ControllerFifo" Type="BlockSrcs" RelSrcDir="$PSRCDIR/ps2ControllerFifo" RelGenDir="$PGENDIR/ps2ControllerFifo">
+      <File Path="$PSRCDIR/sources_1/ip/ps2ControllerFifo/ps2ControllerFifo.xci">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <Config>
+        <Option Name="TopModule" Val="ps2ControllerFifo"/>
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
@@ -333,7 +339,7 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
-    <Run Id="ps2KeyboardFifo_synth_1" Type="Ft3:Synth" SrcSet="ps2KeyboardFifo" Part="xc7z020clg484-1" ConstrsSet="ps2KeyboardFifo" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/ps2KeyboardFifo_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/ps2KeyboardFifo_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/ps2KeyboardFifo_synth_1">
+    <Run Id="i2sControllerFifo_synth_1" Type="Ft3:Synth" SrcSet="i2sControllerFifo" Part="xc7z020clg484-1" ConstrsSet="i2sControllerFifo" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/i2sControllerFifo_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/i2sControllerFifo_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/i2sControllerFifo_synth_1">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2023"/>
         <Step Id="synth_design"/>
@@ -343,7 +349,7 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
-    <Run Id="i2sControllerFifo_synth_1" Type="Ft3:Synth" SrcSet="i2sControllerFifo" Part="xc7z020clg484-1" ConstrsSet="i2sControllerFifo" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/i2sControllerFifo_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/i2sControllerFifo_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/i2sControllerFifo_synth_1">
+    <Run Id="ps2ControllerFifo_synth_1" Type="Ft3:Synth" SrcSet="ps2ControllerFifo" Part="xc7z020clg484-1" ConstrsSet="ps2ControllerFifo" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/ps2ControllerFifo_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/ps2ControllerFifo_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/ps2ControllerFifo_synth_1">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2023"/>
         <Step Id="synth_design"/>
@@ -422,7 +428,7 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
-    <Run Id="ps2KeyboardFifo_impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg484-1" ConstrsSet="ps2KeyboardFifo" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="ps2KeyboardFifo_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/ps2KeyboardFifo_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/ps2KeyboardFifo_impl_1">
+    <Run Id="i2sControllerFifo_impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg484-1" ConstrsSet="i2sControllerFifo" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="i2sControllerFifo_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/i2sControllerFifo_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/i2sControllerFifo_impl_1">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2023"/>
         <Step Id="init_design"/>
@@ -439,7 +445,7 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
-    <Run Id="i2sControllerFifo_impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg484-1" ConstrsSet="i2sControllerFifo" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="i2sControllerFifo_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/i2sControllerFifo_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/i2sControllerFifo_impl_1">
+    <Run Id="ps2ControllerFifo_impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg484-1" ConstrsSet="ps2ControllerFifo" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="ps2ControllerFifo_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/ps2ControllerFifo_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/ps2ControllerFifo_impl_1">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2023"/>
         <Step Id="init_design"/>
