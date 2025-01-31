@@ -2,7 +2,7 @@ Tangerine Z7_20, soc for Qmtech XC7Z020 board. Can be easily adopted to other Zy
 Project compatible with Vivado 2023.1
 
 Contains:
-- VGA controller ( framebuffer in SDRAM - AXI4 dma included )
+- VGA controller ( framebuffer in DDR ram - AXI4 dma included )
   - 320x240 16bpp RGB565
   - 320x240 8bpp indexed color
   - 640x480 16bpp
