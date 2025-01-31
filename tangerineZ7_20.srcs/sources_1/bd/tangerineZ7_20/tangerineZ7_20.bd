@@ -2082,7 +2082,7 @@
             "value": "50"
           },
           "CLKOUT4_USED": {
-            "value": "true"
+            "value": "false"
           },
           "CLKOUT5_JITTER": {
             "value": "162.035"
@@ -2091,7 +2091,7 @@
             "value": "164.985"
           },
           "CLKOUT5_USED": {
-            "value": "true"
+            "value": "false"
           },
           "CLKOUT6_JITTER": {
             "value": "162.035"
@@ -2103,7 +2103,7 @@
             "value": "190"
           },
           "CLKOUT6_USED": {
-            "value": "true"
+            "value": "false"
           },
           "CLK_OUT1_PORT": {
             "value": "clk125"
@@ -2145,19 +2145,19 @@
             "value": "40"
           },
           "MMCM_CLKOUT3_DIVIDE": {
-            "value": "20"
+            "value": "1"
           },
           "MMCM_CLKOUT4_DIVIDE": {
-            "value": "10"
+            "value": "1"
           },
           "MMCM_CLKOUT5_DIVIDE": {
-            "value": "10"
+            "value": "1"
           },
           "MMCM_CLKOUT5_PHASE": {
             "value": "189.000"
           },
           "NUM_OUT_CLKS": {
-            "value": "6"
+            "value": "3"
           },
           "PRIM_IN_FREQ": {
             "value": "50.000"
